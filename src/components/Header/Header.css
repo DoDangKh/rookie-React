@@ -1,0 +1,38 @@
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+
+ /* .App-logo {
+    height: 80px;
+    pointer-events: none;
+}
+
+.App-title {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.App-header {
+    text-align: center;
+    width: 10px;
+    background-color: black;
+    padding: 10px 0;
+
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+} */
