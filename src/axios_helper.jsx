@@ -13,8 +13,10 @@ export const setAuthToken = (token) => {
 export const request = (method, url, data) => {
     let headers = {}
     if (getAuthToken() !== null && getAuthToken() !== "null") {
-        headers = { "Authorization": 'Bearer:' + getAuthToken() }
+        headers = { "Authorization": 'Bearer ' + getAuthToken() }
     }
+
+    console.log(headers)
 
     return axios({
         method: method,
