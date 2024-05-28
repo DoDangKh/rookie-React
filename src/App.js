@@ -14,6 +14,7 @@ import Categories from './page/Admin/Categories/Categories';
 import { Box } from '@mui/material';
 import addCategories from './page/Admin/Categories/add/addCategories';
 import UpdateCategory from './page/Admin/Categories/update/updateCategory';
+import AddProduct from './page/Admin/Product/add/addProduct';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='Category' exact Component={Categories}></Route>
           <Route path='Category/:id' exact Component={UpdateCategory}></Route>
           <Route path='Category/add' exact Component={addCategories}></Route>
+          <Route path="Product/add" exact Component={AddProduct} />
         </Route>
       </Routes>
     </Router>

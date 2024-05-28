@@ -36,7 +36,7 @@ export default function AddCategories() {
         name: state.name,
         description: state.description
       }
-      // console.log(data)
+      console.log(data)
       await add(data)
       setStatus(true)
       // childRef.current.handleClick()
