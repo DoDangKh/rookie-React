@@ -30,10 +30,11 @@ function Product() {
 
 
 
-    const handleDelete = async (products) => {
+    const handleDelete = async (idList) => {
         try {
 
-            await deleteProduct(products)
+            console.log(idList)
+            await deleteProduct(idList)
             mutate(cacheKey)
             console.log(data)
         }
@@ -66,6 +67,24 @@ function Product() {
             disablePadding: false,
             label: 'Description',
         },
+        {
+            id: 'amount',
+            numeric: true,
+            disablePadding: false,
+            label: 'Amount',
+        },
+        {
+            id: 'price',
+            numeric: true,
+            disablePadding: false,
+            label: 'Price',
+        },
+        {
+            id: 'img',
+            disablePadding: false,
+            label: 'Image',
+        },
+
     ];
 
 
@@ -83,10 +102,12 @@ function Product() {
     }
     else {
 
+        console.log(data)
+
         return (
             <div className='w-100'>
                 <Button className="b" onClick={() => { navigate("add") }}>Add</Button>
-                <Table headCells={headCells} Categories={data} deleteCategories={handleDelete} />
+                <Table headCells={headCells} Products={data} deleteProducts={handleDelete} />
                 <Snackbar />
             </div>
         )

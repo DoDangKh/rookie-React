@@ -52,13 +52,13 @@ function stableSort(array, comparator) {
 
 
 
-export default function EnhancedTable(props) {
+export default function EnhancedTable({ headCells, Products, deleteProducts }) {
 
     const navigate = useNavigate()
 
-    const rows = props.Categories
+    // const rows = props.Categories
 
-
+    // console.log(Products[48].images[0].url)
 
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('Name');
@@ -75,7 +75,7 @@ export default function EnhancedTable(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.id);
+            const newSelected = Products.map((n) => n.id);
             setSelected(newSelected);
             return;
         }
@@ -119,11 +119,11 @@ export default function EnhancedTable(props) {
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Products.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort(Products, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
@@ -131,7 +131,7 @@ export default function EnhancedTable(props) {
     );
 
     const handleDelete = () => {
-        props.deleteCategories(selected)
+        deleteProducts(selected)
     }
 
     const handleDetail = () => {
@@ -155,8 +155,8 @@ export default function EnhancedTable(props) {
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                            headCells={props.headCells}
+                            rowCount={Products.length}
+                            headCells={headCells}
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
@@ -193,6 +193,13 @@ export default function EnhancedTable(props) {
                                         </TableCell>
                                         <TableCell align="left">{row.name}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="right">{row.amount}</TableCell>
+                                        <TableCell align="right">{row.price}</TableCell>
+                                        <TableCell >
+                                            {row.images.length > 0 && <img className="w-20" src={`http://localhost:8080/images/${row.images[0].url}`} alt='sad' />}
+                                            {/* {row.images?.length > 0}
+                                            <img src={`http://localhost:8080/images/${row.images[0]?.id}`}></img> */}
+                                        </TableCell>
 
 
                                     </TableRow>
@@ -213,7 +220,7 @@ export default function EnhancedTable(props) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={Products.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -224,6 +231,6 @@ export default function EnhancedTable(props) {
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
                 label="Dense padding"
             />
-        </Box>
+        </Box >
     );
 }
