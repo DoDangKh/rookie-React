@@ -41,7 +41,7 @@ export default function EnhancedTableToolbar(props) {
                     id="tableTitle"
                     component="div"
                 >
-                    Category
+                    Product
                 </Typography>
             )}
 

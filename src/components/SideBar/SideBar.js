@@ -159,7 +159,7 @@ export default function MiniDrawer() {
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
                         }}
-                        onClick={() => { navigate("/Admin/Category") }}
+                        onClick={() => { navigate("/Admin/Product") }}
                     >
                         <ListItemIcon
                             sx={{
@@ -167,6 +167,7 @@ export default function MiniDrawer() {
                                 mr: open ? 3 : 'auto',
                                 justifyContent: 'center',
                             }}
+
                         >
                             <Inventory />
                         </ListItemIcon>

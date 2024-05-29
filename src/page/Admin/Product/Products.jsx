@@ -80,6 +80,12 @@ function Product() {
             label: 'Price',
         },
         {
+            id: 'isActive',
+            numeric: false,
+            disablePadding: false,
+            label: 'Status',
+        },
+        {
             id: 'img',
             disablePadding: false,
             label: 'Image',

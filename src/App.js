@@ -16,6 +16,7 @@ import addCategories from './page/Admin/Categories/add/addCategories';
 import UpdateCategory from './page/Admin/Categories/update/updateCategory';
 import AddProduct from './page/Admin/Product/add/addProduct';
 import Product from './page/Admin/Product/Products';
+import UpdateProduct from './page/Admin/Product/update/UpdateProduct';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path='Category/add' exact Component={addCategories}></Route>
           <Route path="Product/add" exact Component={AddProduct} />
           <Route path="Product" exact Component={Product} />
+          <Route path="Product/:id" exact Component={UpdateProduct} />
         </Route>
       </Routes>
     </Router>

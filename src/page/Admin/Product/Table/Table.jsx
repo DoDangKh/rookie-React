@@ -136,7 +136,7 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
 
     const handleDetail = () => {
         console.log(selected)
-        navigate("/Admin/Category/" + selected[0])
+        navigate("/Admin/Product/" + selected[0])
     }
 
     return (
@@ -195,6 +195,7 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
                                         <TableCell align="left">{row.description}</TableCell>
                                         <TableCell align="right">{row.amount}</TableCell>
                                         <TableCell align="right">{row.price}</TableCell>
+                                        <TableCell align="right">{row.isActive ? <p>yes</p> : <p>no</p>}</TableCell>
                                         <TableCell >
                                             {row.images.length > 0 && <img className="w-20" src={`http://localhost:8080/images/${row.images[0].url}`} alt='sad' />}
                                             {/* {row.images?.length > 0}

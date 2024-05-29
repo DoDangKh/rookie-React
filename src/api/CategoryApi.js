@@ -14,7 +14,7 @@ export const getAuthToken = () => {
 export const getCategory = async (id) => {
     CategoryApi.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken()
     // console.log(id)
-    // await CategoryApi.get(CategoryEndPoint + "/" + id).then(res => { return res.data })
+    await CategoryApi.get(CategoryEndPoint + "/" + id).then(res => { return res.data })
 
 }
 
