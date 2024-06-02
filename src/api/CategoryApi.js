@@ -1,8 +1,33 @@
 import axios from "axios"
+import { request } from "../axios_helper"
+import { redirect } from "react-router-dom"
+
 
 
 const CategoryApi = axios.create({
     baseURL: "http://localhost:8080/api/v1",
+})
+
+
+const responseInterceptor = CategoryApi.interceptors.response.use(response => {
+    return response
+}, (error) => {
+    console.log("interceptors:", error)
+
+    const status = error.response?.status || 500
+    console.log("status:", status)
+    if (status === 401) {
+        console.log("check")
+        // redirect("/login")
+        window.location = window.location.protocol + "//" + window.location.host + "/login"
+        window.localStorage.removeItem("auth-token")
+        window.localStorage.removeItem("user")
+        window.localStorage.removeItem("email")
+    }
+    else {
+        return Promise.reject(error)
+    }
+
 })
 
 export const CategoryEndPoint = '/category'

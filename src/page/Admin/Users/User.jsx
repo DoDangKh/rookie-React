@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import SideBar from '../../../components/SideBar/SideBar'
+
 import Table from './Table/Table'
-import { Box, Button, CircularProgress, Snackbar } from '@mui/material'
+import { Button, CircularProgress, Snackbar } from '@mui/material'
 import { request } from '../../../axios_helper'
 import useSWR from 'swr'
 import {
@@ -9,44 +9,39 @@ import {
     , CategoryEndPoint as cacheKey
     , deleteCategories
 } from '../../../api/CategoryApi'
-import Toast from '../../../components/Toast/Toast'
+
 import { useNavigate } from 'react-router-dom'
 
-function Admin() {
+function User() {
 
-    // const [Categories, setCategories] = useState([])
+    const [users, setusers] = useState(null)
 
 
     const [status, setstatus] = useState(false)
 
     const navigate = useNavigate()
 
-    const {
-        isLoading,
-        error,
-        data,
-        mutate
-    } = useSWR(cacheKey, getAllCategory, { revalidateOnMount: true })
 
-    // useEffect(() => {
 
-    //     request("GET", "/category/all")
-    //         .then((res) => {
-    //             // console.log(res.data)
-    //             setCategories(res.data)
-    //         })
-    //         .catch((e) => {
-    //             console.log(e)
-    //         })
-    // }, [])
+    useEffect(() => {
+
+        request("GET", "/category/all")
+            .then((res) => {
+                // console.log(res.data)
+                setusers(res.data)
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+    }, [])
 
 
     const handleDelete = async (categories) => {
         try {
             // console.log(categories)
-            await deleteCategories(categories)
-            mutate(cacheKey)
-            console.log(data)
+            // await deleteCategories(categories)
+            // mutate(cacheKey)
+            // console.log(data)
         }
         catch (e) {
             console.log("error")
@@ -70,42 +65,42 @@ function Admin() {
             label: 'ID',
         },
         {
-            id: 'name',
+            id: 'firstname',
             numeric: false,
             disablePadding: false,
-            label: 'Name',
+            label: 'First Name',
         },
         {
-            id: 'description',
+            id: 'lastname',
             numeric: false,
             disablePadding: false,
-            label: 'Description',
+            label: 'Last Name',
+        },
+        {
+            id: 'email',
+            numeric: false,
+            disablePadding: false,
+            label: 'E-Mail',
         },
     ];
 
 
-    if (isLoading) return (
+    if (users === null) return (
 
 
         <CircularProgress className="justify-self-center w-10" />
 
     )
-    else if (error) {
-        console.log(error)
-        return (
-            <p>error</p>
-        )
-    }
     else {
 
         return (
             <div className='w-100'>
                 <Button className="b" onClick={() => { navigate("add") }}>Add</Button>
-                <Table headCells={headCells} Categories={data} deleteCategories={handleDelete} />
+                <Table headCells={headCells} Categories={users} deleteCategories={handleDelete} />
                 <Snackbar />
             </div>
         )
     }
 }
 
-export default Admin
+export default User

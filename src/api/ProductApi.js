@@ -5,7 +5,29 @@ const Api = axios.create({
     baseURL: "http://localhost:8080/api/v1",
 })
 
+const responseInterceptor = Api.interceptors.response.use(response => {
+    return response
+}, (error) => {
+    console.log("interceptors:", error)
+
+    const status = error.response?.status || 500
+    console.log("status:", status)
+    if (status === 401) {
+        console.log("check")
+        // redirect("/login")
+        window.location = window.location.protocol + "//" + window.location.host + "/login"
+        window.localStorage.removeItem("auth-token")
+        window.localStorage.removeItem("user")
+        window.localStorage.removeItem("email")
+    }
+    else {
+        return Promise.reject(error)
+    }
+
+})
+
 export const ProductEndPoint = '/product'
+
 
 export const getAuthToken = () => {
     return window.localStorage.getItem("auth-token")
@@ -61,6 +83,24 @@ export const update = async (data, id) => {
         images: data.images,
         feature: data.features,
         amount: data.amount
+    })
+    return response.data
+}
+
+export const filter = async (data) => {
+
+    if (getAuthToken() !== null)
+        Api.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken()
+
+    console.log(typeof (data.page))
+
+    const response = await Api.get(ProductEndPoint + "/filter", {
+        params: {
+            name: data.name,
+            page: 0,
+            size: 16,
+            categoryids: data.categoryids,
+        },
     })
     return response.data
 }

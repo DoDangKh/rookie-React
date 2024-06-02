@@ -7,6 +7,9 @@ import logo from './logo.svg'
 import Header from './components/Header/Header';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import axios from 'axios';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
