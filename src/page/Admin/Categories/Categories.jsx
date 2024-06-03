@@ -81,6 +81,12 @@ function Admin() {
             disablePadding: false,
             label: 'Description',
         },
+        {
+            id: 'delete',
+            numeric: false,
+            disablePadding: false,
+            label: 'Delete',
+        }
     ];
 
 

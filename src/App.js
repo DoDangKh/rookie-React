@@ -21,6 +21,8 @@ import MainPage from './page/User/MainPage/MainPage';
 import Search from './page/User/MainPage/Search/Search';
 import ProductDetailPage from './page/User/ProductDetail/ProductDetail';
 import AdminLogin from './page/Admin/Login/AdminLogin';
+import User from './page/Admin/Users/User';
+import UserDetail from './page/Admin/Users/UserDetail/UserDetail';
 
 function App() {
   return (
@@ -36,13 +38,14 @@ function App() {
         </Route>
         <Route path='Admin/login' exact Component={AdminLogin} />
         <Route Component={SideBar} path='Admin'>
-
+          <Route path='user/:id' exact Component={UserDetail} />
           <Route path='Category' exact Component={Categories}></Route>
           <Route path='Category/:id' exact Component={UpdateCategory}></Route>
           <Route path='Category/add' exact Component={addCategories}></Route>
           <Route path="Product/add" exact Component={AddProduct} />
           <Route path="Product" exact Component={Product} />
           <Route path="Product/:id" exact Component={UpdateProduct} />
+          <Route path='user' exact Component={User} />
         </Route>
       </Routes>
     </Router>

@@ -21,19 +21,9 @@ function Search() {
 
     useEffect(() => {
         console.log("render")
-        // request("GET", "/product/all")
-        //     .then((res) => {
-        //         setProduct(res.data)
-        //     })
-        //     .catch((e) => {
-        //         console.log(e)
-        //     })
+
         const params = Object.fromEntries(searchParams.entries())
 
-        // let categoryids = null
-
-        // if (params.Categories !== '')
-        //     categoryids = params.Categories.split(",")
 
 
 
@@ -62,7 +52,6 @@ function Search() {
         )
     }
 
-    // console.log(Object.fromEntries(searchParams.entries()))
 
     return (
         <Layout className='bg-white'>
@@ -89,7 +78,7 @@ function Search() {
                                         cover={<img alt="example" src="http://localhost:8080/images/8cda66e1-21b3-4957-8f5b-83fdb84df979.png" />}
                                     // cover={<img alt="example" src={"http://localhost:8080/images/" + item.images[0].url} />}
                                     >
-                                        <Meta title={item.name} description={item.desc} />
+                                        <Meta title={item.name} description={item.price + "$"} />
                                     </Card>
                                 </List.Item>
                             )}

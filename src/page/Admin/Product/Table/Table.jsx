@@ -21,6 +21,7 @@ import EnhancedTableHead from './headerTable';
 import EnhancedTableToolbar from './enhancedTableToolBar';
 
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -201,7 +202,8 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
                                             {/* {row.images?.length > 0}
                                             <img src={`http://localhost:8080/images/${row.images[0]?.id}`}></img> */}
                                         </TableCell>
-
+                                        <TableCell >{row.status === true && (<Button>Deactive</Button>)}
+                                            {row.status !== true && (<Button>Active</Button>)}      </TableCell>
 
                                     </TableRow>
                                 );

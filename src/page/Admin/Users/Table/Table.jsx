@@ -136,7 +136,7 @@ export default function EnhancedTable(props) {
 
     const handleDetail = () => {
         console.log(selected)
-        navigate("/Admin/Category/" + selected[0])
+        navigate("/Admin/user/" + selected[0])
     }
 
     return (
@@ -191,8 +191,9 @@ export default function EnhancedTable(props) {
                                         >
                                             {row.id}
                                         </TableCell>
-                                        <TableCell align="left">{row.name}</TableCell>
-                                        <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="left">{row.firstName}</TableCell>
+                                        <TableCell align="left">{row.lastName}</TableCell>
+                                        <TableCell align="left">{row.email}</TableCell>
 
 
                                     </TableRow>

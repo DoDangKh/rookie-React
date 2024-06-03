@@ -15,6 +15,7 @@ import DropDownSelect from "./DropDownSelect/DropDownSelect"
 import UpLoadPicture from "./uploadPicture/UpLoadPicture"
 import { CheckBox } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import "./updateProduct.css"
 import * as Yup from 'yup';
 import useSWR from 'swr';
 
@@ -222,8 +223,23 @@ export default function UpdateProduct() {
                     </Alert>
                 </Snackbar>
                 <h2 className='text-center'>
-                    Add Product
+                    Update Product
                 </h2>
+                <div className="border-b border-gray-300 pb-4">
+                    <label className="text-gray-600">Audit</label>
+                    <div className="flex ">
+                        <label className="text-gray-600">Created at:</label>
+                        <p className="ml-2 text-gray-800">{product.createdAt}</p>
+                    </div>
+                    <div className="flex ">
+                        <label className="text-gray-600">Updated at:</label>
+                        <p className="ml-2 text-gray-800">{product.updatedAt}</p>
+                    </div>
+                    <div className="flex ">
+                        <label className="text-gray-600">Last updated by:</label>
+                        <p className="ml-2 text-gray-800">{product.modifiedUser}</p>
+                    </div>
+                </div>
                 <Formik
                     initialValues={{
                         name: product.name,

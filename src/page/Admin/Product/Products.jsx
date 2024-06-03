@@ -90,6 +90,11 @@ function Product() {
             disablePadding: false,
             label: 'Image',
         },
+        {
+            id: 'img',
+            disablePadding: false,
+            label: 'Delete',
+        },
 
     ];
 

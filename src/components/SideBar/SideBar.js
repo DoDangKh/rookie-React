@@ -16,8 +16,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Outlet, redirect, useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
@@ -172,6 +171,27 @@ export default function MiniDrawer() {
                         >
                             <Inventory />
                         </ListItemIcon>
+
+                        <ListItemText primary={"Product"} sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                    <ListItemButton
+                        sx={{
+                            minHeight: 48,
+                            justifyContent: open ? 'initial' : 'center',
+                            px: 2.5,
+                        }}
+                        onClick={() => { navigate("/Admin/user") }}
+                    >
+                        <ListItemIcon
+                            sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center',
+                            }}
+
+                        >
+                            <AccountBoxIcon />
+                        </ListItemIcon>
                         <ListItemText primary={"Product"} sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                 </List>
@@ -186,7 +206,7 @@ export default function MiniDrawer() {
                             }}
                             onClick={() => {
                                 console.log("test")
-                                navigate("/login")
+                                navigate("/Admin/login")
                                 window.localStorage.removeItem("auth-token")
 
                             }}

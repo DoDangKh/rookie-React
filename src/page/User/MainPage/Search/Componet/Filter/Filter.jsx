@@ -9,10 +9,11 @@ function Filter({ setSearchParams, searchParamsObject }) {
 
     const [categories, setcategories] = useState([])
 
-    const [selectedCategories, setselectedCategories] = useState([])
+    const [selectedCategories, setselectedCategories] = useState(searchParamsObject.Categories)
 
-    const [feature, setfeature] = useState(false)
+    const [feature, setfeature] = useState((searchParamsObject.feature === 'true'))
 
+    console.log("feature:", typeof (feature))
 
 
     useEffect(() => {
@@ -28,18 +29,50 @@ function Filter({ setSearchParams, searchParamsObject }) {
 
     const onChangeCategories = (checkedValues) => {
         console.log(checkedValues)
+        setselectedCategories(checkedValues)
         const categoryids = checkedValues.join(",")
         setSearchParams({
             ...searchParamsObject,
             Categories: categoryids
         })
+
+    }
+
+    const onSubmitName = (values) => {
+        console.log(values)
+        setSearchParams({
+            ...searchParamsObject,
+            Name: values.search
+        })
+
     }
 
 
     return (
         <div className=''>
+            <Form onFinish={onSubmitName}>
+                <div className="flex items-center">
+                    <Form.Item
+                        label="Search"
+                        name="search"
+                        initialValue={searchParamsObject.Name}
+                    >
+                        <Input className='w-20' placeholder='Name of product' />
+                    </Form.Item>
+                </div>
+                <div className="flex items-center">
+                    <Form.Item
+                    >
+                        <Button htmlType='submit'>Search</Button>
+                    </Form.Item>
+                </div>
+            </Form>
+
             <Checkbox.Group
-                onChange={onChangeCategories}>
+                onChange={onChangeCategories}
+                value={selectedCategories}
+            // defaultValue={selectedCategories ? selectedCategories.split(",") : []}
+            >
                 <List
                     dataSource={categories}
                     renderItem={(item) => (
@@ -70,11 +103,11 @@ function Filter({ setSearchParams, searchParamsObject }) {
                 <div className="flex items-center">
                     <Form.Item
                     >
-                        <Button>Apply</Button>
+                        <Button htmlType='submit'>Apply</Button>
                     </Form.Item>
                 </div>
             </Form>
-            <Checkbox value={feature} onChange={(e) => {
+            <Checkbox value={feature} checked={feature} onChange={(e) => {
                 setfeature(e.target.checked)
                 setSearchParams({
                     ...searchParamsObject,

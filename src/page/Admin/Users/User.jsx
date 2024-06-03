@@ -25,9 +25,9 @@ function User() {
 
     useEffect(() => {
 
-        request("GET", "/category/all")
+        request("GET", "/eusers/all")
             .then((res) => {
-                // console.log(res.data)
+                console.log(res.data)
                 setusers(res.data)
             })
             .catch((e) => {
