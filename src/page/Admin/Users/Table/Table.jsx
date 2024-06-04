@@ -60,6 +60,7 @@ export default function EnhancedTable(props) {
 
 
 
+
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('Name');
     const [selected, setSelected] = React.useState([]);
@@ -134,9 +135,9 @@ export default function EnhancedTable(props) {
         props.deleteCategories(selected)
     }
 
-    const handleDetail = () => {
-        console.log(selected)
-        navigate("/Admin/user/" + selected[0])
+    const handleDetail = (id) => {
+
+        navigate("/Admin/user/" + id)
     }
 
     return (
@@ -153,7 +154,6 @@ export default function EnhancedTable(props) {
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
                             headCells={props.headCells}
@@ -166,7 +166,7 @@ export default function EnhancedTable(props) {
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) => handleClick(event, row.id)}
+                                        onClick={() => { handleDetail(row.id) }}
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
@@ -174,15 +174,6 @@ export default function EnhancedTable(props) {
                                         selected={isItemSelected}
                                         sx={{ cursor: 'pointer' }}
                                     >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
                                         <TableCell
                                             component="th"
                                             id={labelId}

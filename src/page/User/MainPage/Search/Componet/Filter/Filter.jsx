@@ -47,6 +47,17 @@ function Filter({ setSearchParams, searchParamsObject }) {
 
     }
 
+    const onSubmitPrice = (values) => {
+
+        console.log(values)
+
+        setSearchParams({
+            ...searchParamsObject,
+            minprice: values.minprice,
+            maxprice: values.maxprice
+        })
+
+    }
 
     return (
         <div className=''>
@@ -70,7 +81,7 @@ function Filter({ setSearchParams, searchParamsObject }) {
 
             <Checkbox.Group
                 onChange={onChangeCategories}
-                value={selectedCategories}
+                defaultValue={selectedCategories}
             // defaultValue={selectedCategories ? selectedCategories.split(",") : []}
             >
                 <List
@@ -83,11 +94,12 @@ function Filter({ setSearchParams, searchParamsObject }) {
                     )}
                 />
             </Checkbox.Group>
-            <Form className=''>
+            <Form className='' onFinish={onSubmitPrice}>
                 <div className="flex items-center">
                     <Form.Item
                         label="Max price"
                         name="maxprice"
+                        initialValue={searchParamsObject.maxprice}
                     >
                         <Input className='w-20' />
                     </Form.Item>
@@ -96,6 +108,7 @@ function Filter({ setSearchParams, searchParamsObject }) {
                     <Form.Item
                         label="Min price"
                         name="minprice"
+                        initialValue={searchParamsObject.minprice}
                     >
                         <Input className='w-20' />
                     </Form.Item>

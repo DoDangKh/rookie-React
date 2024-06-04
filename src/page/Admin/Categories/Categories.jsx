@@ -8,6 +8,7 @@ import {
     getAllCategory
     , CategoryEndPoint as cacheKey
     , deleteCategories
+    , activeCategories
 } from '../../../api/CategoryApi'
 import Toast from '../../../components/Toast/Toast'
 import { useNavigate } from 'react-router-dom'
@@ -60,6 +61,14 @@ function Admin() {
         // console.log(categories)
     }
 
+    const hanedleActive = async (id) => {
+        try {
+            await activeCategories(id)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
 
 
     const headCells = [
@@ -107,7 +116,7 @@ function Admin() {
         return (
             <div className='w-100'>
                 <Button className="b" onClick={() => { navigate("add") }}>Add</Button>
-                <Table headCells={headCells} Categories={data} deleteCategories={handleDelete} />
+                <Table headCells={headCells} Categories={data} deleteCategories={handleDelete} hanedleActive={hanedleActive} />
                 <Snackbar />
             </div>
         )

@@ -7,7 +7,8 @@ import useSWR from 'swr'
 import {
     getAllProduct,
     ProductEndPoint as cacheKey,
-    deleteProduct
+    deleteProduct,
+    activeProduct
 } from '../../../api/ProductApi'
 
 import { useNavigate } from 'react-router-dom'
@@ -30,11 +31,11 @@ function Product() {
 
 
 
-    const handleDelete = async (idList) => {
+    const handleDelete = async (id) => {
         try {
 
-            console.log(idList)
-            await deleteProduct(idList)
+            console.log(id)
+            await deleteProduct(id)
             mutate(cacheKey)
             console.log(data)
         }
@@ -46,6 +47,14 @@ function Product() {
 
     }
 
+    const handleActive = async (id) => {
+        try {
+            await activeProduct(id)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
 
 
     const headCells = [
@@ -118,7 +127,7 @@ function Product() {
         return (
             <div className='w-100'>
                 <Button className="b" onClick={() => { navigate("add") }}>Add</Button>
-                <Table headCells={headCells} Products={data} deleteProducts={handleDelete} />
+                <Table headCells={headCells} Products={data} deleteProducts={handleDelete} handleActive={handleActive} />
                 <Snackbar />
             </div>
         )

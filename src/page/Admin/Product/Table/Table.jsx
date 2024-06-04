@@ -53,7 +53,7 @@ function stableSort(array, comparator) {
 
 
 
-export default function EnhancedTable({ headCells, Products, deleteProducts }) {
+export default function EnhancedTable({ headCells, Products, deleteProducts, handleActive }) {
 
     const navigate = useNavigate()
 
@@ -135,9 +135,9 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
         deleteProducts(selected)
     }
 
-    const handleDetail = () => {
+    const handleDetail = (id) => {
         console.log(selected)
-        navigate("/Admin/Product/" + selected[0])
+        navigate("/Admin/Product/" + id)
     }
 
     return (
@@ -154,7 +154,7 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
+
                             onRequestSort={handleRequestSort}
                             rowCount={Products.length}
                             headCells={headCells}
@@ -167,23 +167,15 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) => handleClick(event, row.id)}
-                                        role="checkbox"
+
+
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.id}
-                                        selected={isItemSelected}
+
                                         sx={{ cursor: 'pointer' }}
                                     >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
+
                                         <TableCell
                                             component="th"
                                             id={labelId}
@@ -199,11 +191,11 @@ export default function EnhancedTable({ headCells, Products, deleteProducts }) {
                                         <TableCell align="right">{row.isActive ? <p>yes</p> : <p>no</p>}</TableCell>
                                         <TableCell >
                                             {row.images.length > 0 && <img className="w-20" src={`http://localhost:8080/images/${row.images[0].url}`} alt='sad' />}
-                                            {/* {row.images?.length > 0}
-                                            <img src={`http://localhost:8080/images/${row.images[0]?.id}`}></img> */}
+
                                         </TableCell>
-                                        <TableCell >{row.status === true && (<Button>Deactive</Button>)}
-                                            {row.status !== true && (<Button>Active</Button>)}      </TableCell>
+                                        <TableCell >{row.isActive === true && (<Button onClick={() => { deleteProducts(row.id) }}>Deactive</Button>)}
+                                            {row.isActive !== true && (<Button onClick={() => { handleActive(row.id) }}>Active</Button>)}
+                                            <Button onClick={() => { handleDetail(row.id) }}>Edit</Button></TableCell>
 
                                     </TableRow>
                                 );

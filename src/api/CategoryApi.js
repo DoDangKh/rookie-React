@@ -54,15 +54,21 @@ export const getAllCategory = async () => {
     return response.data
 }
 
-export const deleteCategories = async (idList) => {
+export const deleteCategories = async (id) => {
 
     CategoryApi.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken();
 
     // console.log(idList)
 
     // return true;
-    return await CategoryApi.delete(CategoryEndPoint + "/delete/many", { data: idList });
+    return await CategoryApi.delete(CategoryEndPoint + "/delete/" + id);
 
+}
+
+export const activeCategories = async (id) => {
+    CategoryApi.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken();
+
+    return await CategoryApi.put(CategoryEndPoint + "/active/" + id)
 }
 
 export const add = async (data) => {

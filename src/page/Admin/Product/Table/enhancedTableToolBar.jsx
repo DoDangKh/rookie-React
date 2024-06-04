@@ -60,17 +60,8 @@ export default function EnhancedTableToolbar(props) {
                     {/* </button> */}
                 </Tooltip>
 
-            ) : props.numSelected > 1 ? (
-                <IconButton onClick={() => { props.deleteCategories() }}>
-                    <DeleteIcon />
-
-                </IconButton>
             ) : (
-                <Tooltip title="Filter list">
-                    <IconButton>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>
+                <div></div>
             )}
 
         </Toolbar>

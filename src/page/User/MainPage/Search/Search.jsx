@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Filter from './Componet/Filter/Filter'
-import { Card, Layout, List, Pagination } from 'antd'
+import { Card, Flex, Layout, List, Pagination, Select } from 'antd'
 import Sider from 'antd/es/layout/Sider'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Content } from 'antd/es/layout/layout'
 import Meta from 'antd/es/card/Meta'
 import { request } from '../../../../axios_helper'
@@ -14,6 +14,8 @@ function Search() {
         p: 0,
         Categories: "",
     })
+
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState([])
 
@@ -29,7 +31,13 @@ function Search() {
 
         const data = {
             page: parseInt(params.p),
-            categoryids: params.Categories
+            categoryids: params.Categories,
+            name: params.Name,
+            minprice: params.minprice,
+            maxprice: params.maxprice,
+            order: params.order,
+            size: 16,
+            feature: params.feature
         }
 
         console.log(data)
@@ -52,6 +60,9 @@ function Search() {
         )
     }
 
+    const onOrderChange = (value) => {
+        setSearchParams({ ...searchParamsObject, order: value })
+    }
 
     return (
         <Layout className='bg-white'>
@@ -60,6 +71,17 @@ function Search() {
             </Sider>
             <Content>
                 <div className='gap-4 m-3'>
+                    <div className='Flex p-2'>
+                        <p>Sort</p>
+                        <Select
+                            options={[
+                                { value: 'asc', label: 'Price Ascending' },
+                                { value: 'desc', label: 'Price Descending' }
+                            ]}
+                            defaultValue={searchParamsObject.order}
+                            onChange={onOrderChange}
+                            className='w-36'></Select>
+                    </div>
                     <div>
                         <List
                             grid={{
@@ -74,6 +96,9 @@ function Search() {
                                         hoverable
                                         style={{
                                             width: 240,
+                                        }}
+                                        onClick={() => {
+                                            navigate("/product/" + item.id)
                                         }}
                                         cover={<img alt="example" src="http://localhost:8080/images/8cda66e1-21b3-4957-8f5b-83fdb84df979.png" />}
                                     // cover={<img alt="example" src={"http://localhost:8080/images/" + item.images[0].url} />}
@@ -92,7 +117,7 @@ function Search() {
                     </div>
                 </div>
             </Content>
-        </Layout>
+        </Layout >
     )
 }
 

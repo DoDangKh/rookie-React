@@ -135,9 +135,9 @@ export default function EnhancedTable(props) {
         props.deleteCategories(selected)
     }
 
-    const handleDetail = () => {
-        console.log(selected)
-        navigate("/Admin/Category/" + selected[0])
+    const handleDetail = (id) => {
+
+        navigate("/Admin/Category/" + id)
     }
 
     return (
@@ -167,23 +167,13 @@ export default function EnhancedTable(props) {
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) => handleClick(event, row.id)}
-                                        role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.id}
                                         selected={isItemSelected}
                                         sx={{ cursor: 'pointer' }}
                                     >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
+
                                         <TableCell
                                             component="th"
                                             id={labelId}
@@ -194,8 +184,9 @@ export default function EnhancedTable(props) {
                                         </TableCell>
                                         <TableCell align="left">{row.name}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell >{row.status === true && (<Button>Deactive</Button>)}
-                                            {row.status !== true && (<Button>Active</Button>)}      </TableCell>
+                                        <TableCell >{row.status === true && (<Button onClick={() => { props.deleteCategories(row.id) }}>Deactive</Button>)}
+                                            {row.status !== true && (<Button onClick={() => { props.activeCategories(row.id) }}>Active</Button>)}
+                                            <Button onClick={() => { handleDetail(row.id) }}>Edit</Button>  </TableCell>
 
 
                                     </TableRow>

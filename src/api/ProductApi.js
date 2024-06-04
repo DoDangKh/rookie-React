@@ -65,10 +65,16 @@ export const getProductById = async (id) => {
 }
 
 
-export const deleteProduct = async (idList) => {
+export const deleteProduct = async (id) => {
     Api.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken()
 
-    return await Api.delete(ProductEndPoint + "/delete/many", { data: idList })
+    return await Api.delete(ProductEndPoint + "/delete/" + id)
+}
+
+export const activeProduct = async (id) => {
+    Api.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken()
+
+    return await Api.put(ProductEndPoint + "/active/" + id)
 }
 
 export const update = async (data, id) => {
@@ -98,8 +104,11 @@ export const filter = async (data) => {
         params: {
             name: data.name,
             page: 0,
-            size: 16,
+            size: data.size,
             categoryids: data.categoryids,
+            minprice: data.minprice,
+            maxprice: data.maxprice,
+            order: data.order
         },
     })
     return response.data
