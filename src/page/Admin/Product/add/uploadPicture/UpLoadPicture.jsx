@@ -136,6 +136,7 @@ const App = (props) => {
                 fileList={fileList}
                 onRemove={handleRemove}
                 onPreview={handlePreview}
+                multiple={true}
             >
                 {fileList.length >= 8 ? null : uploadButton}
             </Upload>

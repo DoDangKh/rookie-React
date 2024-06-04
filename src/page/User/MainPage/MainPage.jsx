@@ -4,6 +4,7 @@ import { Card, Carousel, Col, List, Row, Spin } from 'antd'
 import Meta from 'antd/es/card/Meta'
 import { filter } from '../../../api/ProductApi'
 import { useNavigate } from 'react-router-dom'
+import { FireFilled, FireTwoTone } from '@ant-design/icons'
 function MainPage() {
 
     const [product, setproduct] = useState(null)
@@ -16,7 +17,8 @@ function MainPage() {
         const data = {
             page: 0,
             feature: "TRUE",
-            size: 10
+            size: 10,
+            isActive: "TRUE",
         }
 
         filter(data).then((res) => {
@@ -74,7 +76,7 @@ function MainPage() {
                 <div className='mx-4 my-4 flex justify-center items-center'>
                     <List
                         grid={{
-                            gutter: 1,
+                            gutter: 16,
                             column: 4,
                         }}
                         dataSource={product}
@@ -85,13 +87,22 @@ function MainPage() {
                                     hoverable
                                     style={{
                                         width: 240,
+                                        height: 456
                                     }}
                                     onClick={() => {
                                         navigate("/product/" + item.id)
                                     }}
-                                    cover={<img alt="example" src="http://localhost:8080/images/8cda66e1-21b3-4957-8f5b-83fdb84df979.png" />}
-                                // cover={<img alt="example" src={"http://localhost:8080/images/" + item.images[0].url} />}
+                                    // cover={<img alt="example" src="http://localhost:8080/images/8cda66e1-21b3-4957-8f5b-83fdb84df979.png" />}
+                                    cover={<div style={{ overflow: "hidden", height: "full" }}>
+                                        <img className='h-full' alt="example" src={"http://localhost:8080/images/" + item.images[0].url} />
+                                    </div>}
                                 >
+                                    {item.feature &&
+                                        <div className="flex">
+                                            <FireTwoTone twoToneColor="red" />
+                                            <p className="text-red-600 px-2 pt-4">Hot</p>
+
+                                        </div>}
                                     <Meta title={item.name} description={item.price + "$"} />
                                 </Card>
                             </List.Item>

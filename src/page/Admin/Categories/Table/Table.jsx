@@ -185,7 +185,7 @@ export default function EnhancedTable(props) {
                                         <TableCell align="left">{row.name}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
                                         <TableCell >{row.status === true && (<Button onClick={() => { props.deleteCategories(row.id) }}>Deactive</Button>)}
-                                            {row.status !== true && (<Button onClick={() => { props.activeCategories(row.id) }}>Active</Button>)}
+                                            {row.status !== true && (<Button onClick={() => { props.handleActive(row.id) }}>Active</Button>)}
                                             <Button onClick={() => { handleDetail(row.id) }}>Edit</Button>  </TableCell>
 
 

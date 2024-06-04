@@ -116,7 +116,7 @@ function Admin() {
         return (
             <div className='w-100'>
                 <Button className="b" onClick={() => { navigate("add") }}>Add</Button>
-                <Table headCells={headCells} Categories={data} deleteCategories={handleDelete} hanedleActive={hanedleActive} />
+                <Table headCells={headCells} Categories={data} deleteCategories={handleDelete} handleActive={hanedleActive} />
                 <Snackbar />
             </div>
         )

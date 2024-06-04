@@ -37,7 +37,8 @@ function Search() {
             maxprice: params.maxprice,
             order: params.order,
             size: 16,
-            feature: params.feature
+            feature: params.feature,
+            isActive: "TRUE",
         }
 
         console.log(data)

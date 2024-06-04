@@ -110,14 +110,19 @@ const ProductDetailPage = () => {
                         </Alert>
                     </Snackbar>
                     <div className="w-1/2">
-                        <Carousel>
+                        <Carousel autoplay={true} arrows className='flex justify-center items-center  bg-slate-500'>
                             {product && product.images.map((image, index) => (
-                                <div key={index}>
+                                <div className='flex justify-center items-center h-full'>
                                     <Image
                                         src={`http://localhost:8080/images/${image.url}`}
                                         alt={`Product ${index + 1}`}
+                                        className="h-64 object-fill"
+                                        width={"100%"}
+                                        key={index}
+                                        fluid
                                     />
                                 </div>
+
                             ))}
                         </Carousel>
                     </div>
@@ -175,7 +180,7 @@ const ProductDetailPage = () => {
                         />
                     )}
                 </div>
-            </div>
+            </div >
         );
 };
 

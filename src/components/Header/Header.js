@@ -27,9 +27,10 @@ function ResponsiveAppBar() {
     let name = ""
 
     if (token !== null) {
+        console.log(name)
         name = window.localStorage.getItem("email").charAt(0)
 
-        console.log(name)
+
     }
     const navigate = useNavigate()
 

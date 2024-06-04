@@ -32,6 +32,8 @@ export default function AdminLogin() {
         ).then((response) => {
             console.log(response.data);
             setAuthToken(response.data.token);
+            window.localStorage.setItem("user", response.data.id)
+            window.localStorage.setItem("email", response.data.email)
             navigate("/Admin/Category")
         }).catch((error) => {
             console.log(error)

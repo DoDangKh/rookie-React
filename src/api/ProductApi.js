@@ -108,7 +108,9 @@ export const filter = async (data) => {
             categoryids: data.categoryids,
             minprice: data.minprice,
             maxprice: data.maxprice,
-            order: data.order
+            order: data.order,
+            isActive: data.isActive,
+            feature: data.feature.toUpperCase()
         },
     })
     return response.data
