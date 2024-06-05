@@ -18,7 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CategoryIcon from '@mui/icons-material/Category';
-import { Outlet, redirect, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, redirect, useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { Inventory } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
@@ -104,8 +104,18 @@ export default function MiniDrawer() {
 
     const navigate = useNavigate();
 
-    return (
-        <Box className="flex mt-20" >
+
+
+    const check = () => {
+        if (window.localStorage.getItem("role") !== "ROLE_ADMIN") {
+            console.log("not pass")
+            return true
+        }
+        return false
+    }
+
+    if (!check()) {
+        return (<Box className="flex mt-20" >
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
@@ -122,7 +132,7 @@ export default function MiniDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
+                        Top Shoes Admin
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -208,6 +218,8 @@ export default function MiniDrawer() {
                                 console.log("test")
                                 navigate("/Admin/login")
                                 window.localStorage.removeItem("auth-token")
+                                window.localStorage.removeItem("email")
+                                window.localStorage.removeItem("role")
 
                             }}
                         >
@@ -231,6 +243,8 @@ export default function MiniDrawer() {
 
             {/* <CircularProgress className="flex justify-center" /> */}
             <Outlet />
-        </Box >
-    );
+        </Box >);
+    } else {
+        return <Navigate to={"/Admin/login"}></Navigate>
+    }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './Register.css'
 import { request, setAuthToken } from '../../axios_helper';
 import { Button } from '@mui/material'
+import { useNavigate } from 'react-router-dom';
 
 export default class Regsiter extends Component {
 
@@ -13,6 +14,8 @@ export default class Regsiter extends Component {
         console.log(this.state.FirstName)
     }
 
+
+    navigate = useNavigate()
 
     state = {
         FirstName: "",
@@ -33,7 +36,10 @@ export default class Regsiter extends Component {
             }
         ).then((response) => {
             setAuthToken(response.data.token);
-            console.log('success');
+            window.localStorage.setItem("user", response.data.id)
+            window.localStorage.setItem("email", response.data.email)
+
+            this.navigate("/")
         }).catch((error) => {
             console.log(error)
         })

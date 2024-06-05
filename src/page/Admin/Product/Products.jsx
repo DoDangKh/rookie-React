@@ -36,7 +36,7 @@ function Product() {
 
             console.log(id)
             await deleteProduct(id)
-            mutate(cacheKey)
+            mutate()
             console.log(data)
         }
         catch (e) {
@@ -50,6 +50,7 @@ function Product() {
     const handleActive = async (id) => {
         try {
             await activeProduct(id)
+            mutate()
         }
         catch (e) {
             console.log(e)

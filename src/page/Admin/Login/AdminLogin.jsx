@@ -3,6 +3,7 @@ import { request, setAuthToken } from '../../../axios_helper';
 import './AdminLogin.css'
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 export default function AdminLogin() {
 
@@ -31,10 +32,18 @@ export default function AdminLogin() {
             }
         ).then((response) => {
             console.log(response.data);
-            setAuthToken(response.data.token);
-            window.localStorage.setItem("user", response.data.id)
-            window.localStorage.setItem("email", response.data.email)
-            navigate("/Admin/Category")
+            if (response.data.role === "ROLE_ADMIN") {
+                setAuthToken(response.data.token);
+                window.localStorage.setItem("user", response.data.id)
+                window.localStorage.setItem("email", response.data.email)
+                window.localStorage.setItem("role", response.data.role)
+                // console.log(response.data)
+                navigate("/Admin/Category")
+            }
+            else {
+                message.error("Your account do not have authority to access this")
+            }
+
         }).catch((error) => {
             console.log(error)
         })

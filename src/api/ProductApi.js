@@ -98,9 +98,15 @@ export const filter = async (data) => {
     if (getAuthToken() !== null)
         Api.defaults.headers.common["Authorization"] = 'Bearer ' + getAuthToken()
 
-    console.log(typeof (data.page))
+    console.log(data.minprice)
+    if (data.feature != null) {
+        data.feature = data.feature.toUpperCase()
+    }
 
     const response = await Api.get(ProductEndPoint + "/filter", {
+
+
+
         params: {
             name: data.name,
             page: 0,
@@ -110,7 +116,7 @@ export const filter = async (data) => {
             maxprice: data.maxprice,
             order: data.order,
             isActive: data.isActive,
-            feature: data.feature.toUpperCase()
+            feature: data.feature
         },
     })
     return response.data

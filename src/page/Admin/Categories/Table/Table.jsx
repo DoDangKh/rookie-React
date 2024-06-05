@@ -21,7 +21,7 @@ import EnhancedTableHead from './headerTable';
 import EnhancedTableToolbar from './enhancedTableToolBar';
 
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -57,8 +57,7 @@ export default function EnhancedTable(props) {
 
     const navigate = useNavigate()
 
-    const rows = props.Categories
-
+    // const rows = props.Categories
 
 
     const [order, setOrder] = React.useState('asc');
@@ -76,7 +75,7 @@ export default function EnhancedTable(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.id);
+            const newSelected = props.Categories.map((n) => n.id);
             setSelected(newSelected);
             return;
         }
@@ -120,15 +119,15 @@ export default function EnhancedTable(props) {
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.Categories.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort([...props.Categories], getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage],
+        [order, orderBy, page, rowsPerPage, props.Categories],
     );
 
     const handleDelete = () => {
@@ -142,6 +141,8 @@ export default function EnhancedTable(props) {
 
     return (
         <Box sx={{ width: '100%' }}>
+
+
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <EnhancedTableToolbar numSelected={selected.length} deleteCategories={handleDelete} handleDetail={handleDetail} />
                 <TableContainer>
@@ -156,7 +157,7 @@ export default function EnhancedTable(props) {
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            rowCount={props.Categories.length}
                             headCells={props.headCells}
                         />
                         <TableBody>
@@ -184,7 +185,17 @@ export default function EnhancedTable(props) {
                                         </TableCell>
                                         <TableCell align="left">{row.name}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell >{row.status === true && (<Button onClick={() => { props.deleteCategories(row.id) }}>Deactive</Button>)}
+                                        <TableCell >{row.status === true && (
+                                            <Popconfirm
+                                                title="Delete the task"
+                                                description="Are you sure to deactive this"
+                                                onConfirm={() => { props.deleteCategories(row.id) }}
+                                                onCancel={(e) => { console.log(e) }}
+                                                okText="Yes"
+                                                cancelText="No"
+                                            >
+                                                <Button danger>Deactive</Button>
+                                            </Popconfirm>)}
                                             {row.status !== true && (<Button onClick={() => { props.handleActive(row.id) }}>Active</Button>)}
                                             <Button onClick={() => { handleDetail(row.id) }}>Edit</Button>  </TableCell>
 
@@ -207,7 +218,7 @@ export default function EnhancedTable(props) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={props.Categories.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

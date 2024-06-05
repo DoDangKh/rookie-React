@@ -21,7 +21,7 @@ import EnhancedTableHead from './headerTable';
 import EnhancedTableToolbar from './enhancedTableToolBar';
 
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -128,7 +128,7 @@ export default function EnhancedTable({ headCells, Products, deleteProducts, han
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage],
+        [order, orderBy, page, rowsPerPage, Products],
     );
 
     const handleDelete = () => {
@@ -193,7 +193,17 @@ export default function EnhancedTable({ headCells, Products, deleteProducts, han
                                             {row.images.length > 0 && <img className="w-20" src={`http://localhost:8080/images/${row.images[0].url}`} alt='sad' />}
 
                                         </TableCell>
-                                        <TableCell >{row.isActive === true && (<Button onClick={() => { deleteProducts(row.id) }}>Deactive</Button>)}
+                                        <TableCell >{row.isActive === true && (
+                                            <Popconfirm
+                                                title="Delete the task"
+                                                description="Are you sure to deactive this"
+                                                onConfirm={() => { deleteProducts(row.id) }}
+                                                onCancel={(e) => { console.log(e) }}
+                                                okText="Yes"
+                                                cancelText="No"
+                                            >
+                                                <Button danger>Deactive</Button>
+                                            </Popconfirm>)}
                                             {row.isActive !== true && (<Button onClick={() => { handleActive(row.id) }}>Active</Button>)}
                                             <Button onClick={() => { handleDetail(row.id) }}>Edit</Button></TableCell>
 

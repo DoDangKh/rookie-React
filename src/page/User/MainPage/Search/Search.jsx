@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import Filter from './Componet/Filter/Filter'
-import { Card, Flex, Layout, List, Pagination, Select } from 'antd'
+import { Button, Card, Flex, Layout, List, Pagination, Select } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Content } from 'antd/es/layout/layout'
 import Meta from 'antd/es/card/Meta'
 import { request } from '../../../../axios_helper'
 import { filter } from '../../../../api/ProductApi'
+import { FireTwoTone } from '@ant-design/icons'
 
 function Search() {
 
     const [searchParams, setSearchParams] = useSearchParams({
         p: 0,
         Categories: "",
+        minprice: "",
+        maxprice: "",
     })
 
     const navigate = useNavigate()
@@ -55,6 +58,8 @@ function Search() {
     }, [searchParams])
 
 
+
+
     const onPageChange = (pageNumber) => {
         setSearchParams(
             { ...searchParamsObject, p: pageNumber - 1 }
@@ -93,18 +98,34 @@ function Search() {
                             renderItem={(item) => (
                                 <List.Item>
                                     <Card
-                                        className='border-5 border-slate-200'
+                                        className="border-2 border-gray-300 rounded-md shadow-md overflow-hidden"
                                         hoverable
-                                        style={{
-                                            width: 240,
-                                        }}
-                                        onClick={() => {
-                                            navigate("/product/" + item.id)
-                                        }}
-                                        cover={<img alt="example" src="http://localhost:8080/images/8cda66e1-21b3-4957-8f5b-83fdb84df979.png" />}
-                                    // cover={<img alt="example" src={"http://localhost:8080/images/" + item.images[0].url} />}
+                                        style={{ width: 300 }}
+                                        cover={
+                                            <div style={{ height: 300, overflow: 'hidden' }}>
+                                                <img
+                                                    className="object-cover w-full h-full"
+                                                    alt={item.name}
+                                                    src={'http://localhost:8080/images/' + item.images[0].url}
+                                                />
+                                            </div>
+                                        }
+                                        onClick={() => navigate('/product/' + item.id)}
                                     >
-                                        <Meta title={item.name} description={item.price + "$"} />
+                                        {item.feature && (
+                                            <div className="flex items-center mb-4">
+                                                <FireTwoTone twoToneColor="red" className="text-lg mr-2" />
+                                                <p className="text-red-600">Hot</p>
+                                            </div>
+                                        )}
+
+                                        <Meta
+                                            title={item.name}
+                                            description={<span className="text-lg font-bold">${item.price}</span>}
+                                        />
+                                        <Button className="w-full mt-4" type="primary" >
+                                            Add to Cart
+                                        </Button>
                                     </Card>
                                 </List.Item>
                             )}

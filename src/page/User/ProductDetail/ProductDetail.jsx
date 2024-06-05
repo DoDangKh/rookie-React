@@ -27,7 +27,7 @@ const ProductDetailPage = () => {
         request("GET", "/product/" + id)
             .then((res) => {
                 setProduct(res.data);
-                console.log(product)
+                console.log(res.data)
             })
             .catch((e) => {
                 console.log(e);
@@ -110,7 +110,8 @@ const ProductDetailPage = () => {
                         </Alert>
                     </Snackbar>
                     <div className="w-1/2">
-                        <Carousel autoplay={true} arrows className='flex justify-center items-center  bg-slate-500'>
+                        <Carousel autoplay={true} arrows className='flex justify-center items-center  bg-slate-500'
+                            dotStyle={{ backgroud: 'blue' }}>
                             {product && product.images.map((image, index) => (
                                 <div className='flex justify-center items-center h-full'>
                                     <Image
@@ -164,8 +165,10 @@ const ProductDetailPage = () => {
                         renderItem={(item) => (
                             <List.Item>
                                 <div>
-                                    <p>{item.comment}</p>
+                                    <p>{item.name}:</p>
                                     <Rate disabled value={item.scores} />
+                                    <p>{item.comment}</p>
+
                                 </div>
                             </List.Item>
                         )}

@@ -23,6 +23,7 @@ import ProductDetailPage from './page/User/ProductDetail/ProductDetail';
 import AdminLogin from './page/Admin/Login/AdminLogin';
 import User from './page/Admin/Users/User';
 import UserDetail from './page/Admin/Users/UserDetail/UserDetail';
+import CartPage from './page/User/Cart/Cart';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="register" exact Component={Register} />
           <Route path='*' exact Component={MainPage} />
           <Route path='search' exact Component={Search} />
+          <Route path='cart' exact Component={CartPage} />
         </Route>
         <Route path='Admin/login' exact Component={AdminLogin} />
         <Route Component={SideBar} path='Admin'>
@@ -46,6 +48,7 @@ function App() {
           <Route path="Product" exact Component={Product} />
           <Route path="Product/:id" exact Component={UpdateProduct} />
           <Route path='user' exact Component={User} />
+
         </Route>
       </Routes>
     </Router>
