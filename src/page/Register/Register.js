@@ -15,7 +15,7 @@ export default class Regsiter extends Component {
     }
 
 
-    navigate = useNavigate()
+    // navigate = useNavigate()
 
     state = {
         FirstName: "",
@@ -39,7 +39,7 @@ export default class Regsiter extends Component {
             window.localStorage.setItem("user", response.data.id)
             window.localStorage.setItem("email", response.data.email)
 
-            this.navigate("/")
+            this.props.navigation.navigate("/")
         }).catch((error) => {
             console.log(error)
         })

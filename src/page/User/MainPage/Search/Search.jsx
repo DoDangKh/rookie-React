@@ -8,6 +8,8 @@ import Meta from 'antd/es/card/Meta'
 import { request } from '../../../../axios_helper'
 import { filter } from '../../../../api/ProductApi'
 import { FireTwoTone } from '@ant-design/icons'
+import { addToCart } from '../../../../api/CartsApi'
+
 
 function Search() {
 
@@ -59,6 +61,24 @@ function Search() {
 
 
 
+    const handleAddToCart = (item) => {
+
+        const data = {
+            products: item,
+            idUser: window.localStorage.getItem("user"),
+            amount: 1
+        }
+
+        console.log(data)
+
+        addToCart(data).then((res) => {
+            console.log(res)
+        })
+            .catch((e) => {
+                console.log(e)
+            })
+    }
+
 
     const onPageChange = (pageNumber) => {
         setSearchParams(
@@ -104,13 +124,14 @@ function Search() {
                                         cover={
                                             <div style={{ height: 300, overflow: 'hidden' }}>
                                                 <img
+                                                    onClick={() => navigate('/product/' + item.id)}
                                                     className="object-cover w-full h-full"
                                                     alt={item.name}
                                                     src={'http://localhost:8080/images/' + item.images[0].url}
                                                 />
                                             </div>
                                         }
-                                        onClick={() => navigate('/product/' + item.id)}
+
                                     >
                                         {item.feature && (
                                             <div className="flex items-center mb-4">
@@ -123,7 +144,7 @@ function Search() {
                                             title={item.name}
                                             description={<span className="text-lg font-bold">${item.price}</span>}
                                         />
-                                        <Button className="w-full mt-4" type="primary" >
+                                        <Button className="w-full mt-4" type="primary" onClick={() => { handleAddToCart(item) }}>
                                             Add to Cart
                                         </Button>
                                     </Card>

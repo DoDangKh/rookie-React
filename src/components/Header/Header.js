@@ -181,9 +181,14 @@ function ResponsiveAppBar() {
                                     </MenuItem>
                                 ))} */}
                                 {token === null && (
-                                    <MenuItem onClick={() => { navigate("/login") }}>
-                                        <Typography textAlign="center">Login</Typography>
-                                    </MenuItem>
+                                    <div>
+                                        <MenuItem onClick={() => { navigate("/login") }}>
+                                            <Typography textAlign="center">Login</Typography>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => { navigate("/register") }}>
+                                            <Typography textAlign="center">Regsiter</Typography>
+                                        </MenuItem>
+                                    </div>
                                 )}
                                 {token !== null && (
                                     <MenuItem onClick={() => {

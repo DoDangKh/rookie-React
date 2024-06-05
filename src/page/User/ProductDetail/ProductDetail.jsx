@@ -111,7 +111,7 @@ const ProductDetailPage = () => {
                     </Snackbar>
                     <div className="w-1/2">
                         <Carousel autoplay={true} arrows className='flex justify-center items-center  bg-slate-500'
-                            dotStyle={{ backgroud: 'blue' }}>
+                            st={{ backgroud: 'blue' }}>
                             {product && product.images.map((image, index) => (
                                 <div className='flex justify-center items-center h-full'>
                                     <Image
