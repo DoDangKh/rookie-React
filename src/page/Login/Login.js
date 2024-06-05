@@ -36,7 +36,7 @@ export default function Login() {
             window.localStorage.setItem("email", response.data.email)
             console.log("id:", window.localStorage.getItem("user"))
             console.log("id:", window.localStorage.getItem("email"))
-            // navigate("/")
+            navigate("/")
         }).catch((error) => {
             console.log(error)
         })

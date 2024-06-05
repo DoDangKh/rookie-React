@@ -63,20 +63,26 @@ function Search() {
 
     const handleAddToCart = (item) => {
 
-        const data = {
-            products: item,
-            idUser: window.localStorage.getItem("user"),
-            amount: 1
+        if (window.localStorage.getItem("auth-token") === null) {
+            navigate("/login")
         }
 
-        console.log(data)
+        else {
+            const data = {
+                products: item,
+                idUser: window.localStorage.getItem("user"),
+                amount: 1
+            }
 
-        addToCart(data).then((res) => {
-            console.log(res)
-        })
-            .catch((e) => {
-                console.log(e)
+            console.log(data)
+
+            addToCart(data).then((res) => {
+                console.log(res)
             })
+                .catch((e) => {
+                    console.log(e)
+                })
+        }
     }
 
 

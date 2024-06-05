@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, InputNumber, Image } from 'antd';
+import { Table, Button, Space, InputNumber, Image, Checkbox } from 'antd';
 import './Cart.css';
 import { deleteCarts, getCartsByIdUsers, updateCarts } from '../../../api/CartsApi';
 import { render } from '@testing-library/react';
@@ -7,18 +7,19 @@ import { update } from '../../../api/CategoryApi';
 
 const CartPage = () => {
     // Dummy data for demonstration
-    const [cartItems, setCartItems] = useState([
-    ]);
+    const [cartItems, setCartItems] = useState([]);
+
+    const [Selected, setSelected] = useState([])
 
     useEffect(() => {
-        getCartsByIdUsers(window.localStorage.getItem("user")).then((res) => {
-            setCartItems(res)
-        })
+        getCartsByIdUsers(window.localStorage.getItem("user"))
+            .then((res) => {
+                setCartItems(res)
+            })
             .catch((e) => {
                 console.log(e)
             })
     }, [])
-
 
     const columns = [
         {
@@ -34,7 +35,6 @@ const CartPage = () => {
             dataIndex: 'price',
             key: 'price',
             render: (_, record) => {
-                console.log(record.productsDto.price)
                 const price = record.productsDto.price;
                 return '$' + price;
             },
@@ -44,7 +44,6 @@ const CartPage = () => {
             dataIndex: 'image',
             key: 'image',
             render: (_, record) => {
-                console.log(record.productsDto.images[0].url)
                 return < Image src={'http://localhost:8080/images/' + record.productsDto.images[0].url} alt='failed' width={"128px"} ></Image >
             },
         },
@@ -74,20 +73,26 @@ const CartPage = () => {
                 <Button onClick={() => handleRemoveItem(record.id)}>Remove</Button>
             ),
         },
+        {
+            title: 'Select',
+            dataIndex: 'select',
+            key: 'select',
+            render: (_, record) => (
+                <Checkbox onChange={(e) => handleSelectChange(record, e)} />
+            ),
+        },
     ];
 
     const handleQuantityChange = (record, quantity) => {
         if (quantity > 0) {
-
             let temp = { ...record }
-
             temp.amount = quantity
 
-            updateCarts(temp).then((res) => {
-                console.log(res)
-            })
+            updateCarts(temp)
+                .then((res) => {
+                    console.log(res)
+                })
                 .catch((e) => { console.log(e) })
-
 
             setCartItems((prevItems) =>
                 prevItems.map((item) =>
@@ -105,23 +110,35 @@ const CartPage = () => {
     };
 
     const handleRemoveItem = (id) => {
-        deleteCarts(id).then((res) => {
-            setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
-            console.log(res)
-        }
-        )
+        deleteCarts(id)
+            .then((res) => {
+                setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+                console.log(res)
+            })
             .catch((e) => {
                 console.log(e)
             })
     };
 
-    const total = cartItems.reduce(
+    const handleSelectChange = (record, e) => {
+        // Handle checkbox change
+        console.log("Selected: ", e.target.checked, "for record: ", record);
 
+        if (e.target.checked === false) {
+            setSelected((prevSelected) =>
+                prevSelected.filter((selected) => selected.id !== record.id))
+        }
+        else {
+            let temp = [...Selected]
+            temp.push(record)
+            setSelected(temp)
+        }
+    };
+
+    const total = cartItems.reduce(
         (acc, curr) => acc + curr.productsDto.price * curr.amount,
         0
     );
-
-
 
     return (
         <div className="container mx-auto my-8">
@@ -140,6 +157,7 @@ const CartPage = () => {
                             <strong>${total}</strong>
                         </Table.Summary.Cell>
                         <Table.Summary.Cell index={4}></Table.Summary.Cell>
+                        <Table.Summary.Cell index={5}></Table.Summary.Cell>
                     </Table.Summary.Row>
                 )}
             />

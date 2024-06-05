@@ -5,6 +5,7 @@ import Meta from 'antd/es/card/Meta'
 import { filter } from '../../../api/ProductApi'
 import { useNavigate } from 'react-router-dom'
 import { FireFilled, FireTwoTone } from '@ant-design/icons'
+import { addToCart } from '../../../api/CartsApi'
 function MainPage() {
 
     const [product, setproduct] = useState(null)
@@ -31,11 +32,38 @@ function MainPage() {
     }, [])
 
 
+
+    const handleAddToCart = (item) => {
+
+        if (window.localStorage.getItem("auth-token") === null) {
+            navigate("/login")
+        }
+
+        else {
+            const data = {
+                products: item,
+                idUser: window.localStorage.getItem("user"),
+                amount: 1
+            }
+
+            console.log(data)
+
+            addToCart(data).then((res) => {
+                console.log(res)
+            })
+                .catch((e) => {
+                    console.log(e)
+                })
+        }
+    }
+
     if (product === null) {
         return (
             <Spin></Spin>
         )
     }
+
+
 
     else
         return (
@@ -89,13 +117,14 @@ function MainPage() {
                                     cover={
                                         <div style={{ height: 300, overflow: 'hidden' }}>
                                             <img
+                                                onClick={() => navigate('/product/' + item.id)}
                                                 className="object-cover w-full h-full"
                                                 alt={item.name}
                                                 src={'http://localhost:8080/images/' + item.images[0].url}
                                             />
                                         </div>
                                     }
-                                    onClick={() => navigate('/product/' + item.id)}
+
                                 >
                                     {item.feature && (
                                         <div className="flex items-center mb-4">
@@ -108,7 +137,7 @@ function MainPage() {
                                         title={item.name}
                                         description={<span className="text-lg font-bold">${item.price}</span>}
                                     />
-                                    <Button className="w-full mt-4" type="primary" >
+                                    <Button className="w-full mt-4" type="primary" onClick={() => { handleAddToCart(item) }}>
                                         Add to Cart
                                     </Button>
                                 </Card>

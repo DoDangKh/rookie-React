@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -48,6 +49,15 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const handleOpenCart = () => {
+        if (token === null) {
+            navigate("/login")
+        }
+        else {
+            navigate("/cart")
+        }
+    }
 
     return (
         <Box height="100vh" >
@@ -148,6 +158,9 @@ function ResponsiveAppBar() {
 
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
+                                <IconButton>
+                                    <ShoppingCartOutlinedIcon color="secondary" onClick={handleOpenCart}></ShoppingCartOutlinedIcon>
+                                </IconButton>
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     {token === null && (
                                         <Avatar size="large" icon={<UserOutlined />} />
@@ -158,6 +171,7 @@ function ResponsiveAppBar() {
                                         </Avatar>
                                     )}
                                 </IconButton>
+
                             </Tooltip>
                             <Menu
                                 sx={{ mt: '45px' }}
@@ -206,7 +220,7 @@ function ResponsiveAppBar() {
                 </Container>
             </AppBar>
             <Outlet />
-        </Box>
+        </Box >
 
     );
 }
