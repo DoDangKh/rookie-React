@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ImageSlider from './Carousel/Carousel'
-import { Button, Card, Carousel, Col, List, Row, Spin } from 'antd'
+import { Button, Card, Carousel, Col, List, Row, Spin, message } from 'antd'
 import Meta from 'antd/es/card/Meta'
 import { filter } from '../../../api/ProductApi'
 import { useNavigate } from 'react-router-dom'
@@ -50,9 +50,11 @@ function MainPage() {
 
             addToCart(data).then((res) => {
                 console.log(res)
+                message.success("Add to cart success")
             })
                 .catch((e) => {
                     console.log(e)
+                    message.error("Add to cart fail")
                 })
         }
     }

@@ -39,7 +39,7 @@ export default function AddProduct() {
 
     // console.log(categories)
 
-    // console.log("Cha:", images)
+    console.log("Cha:", images)
 
     const onChangeHandler = (event) => {
         // console.log("testting:", event.target.name, event.target.value)

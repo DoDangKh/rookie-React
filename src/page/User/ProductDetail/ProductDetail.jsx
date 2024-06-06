@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Card, Button, Carousel, Rate, Input, List, Image, Pagination } from 'antd';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { request } from '../../../axios_helper';
 import { CircularProgress } from '@mui/material';
+import { addToCart } from '../../../api/CartsApi';
 
 const { TextArea } = Input;
 
@@ -18,12 +19,15 @@ const ProductDetailPage = () => {
     const [Status, setStatus] = useState(false);
     const [severity, setSeverity] = useState("success");
     const [message, setMessage] = useState("");
-    const [reset, setReset] = useState([]);
+    const [reset, setReset] = useState(false);
 
     let { id } = useParams();
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         // Fetch product details
+        console.log('render:', reset)
         request("GET", "/product/" + id)
             .then((res) => {
                 setProduct(res.data);
@@ -60,9 +64,11 @@ const ProductDetailPage = () => {
             };
             request("POST", "/rates/add", data)
                 .then((res) => {
-                    const temp = reset;
-                    temp.push(res.data);
-                    setReset(temp);
+
+                    if (reset === false)
+                        setReset(true)
+                    else
+                        setReset(false)
                     setMessage("Rating added successfully");
                     setSeverity("success");
                     setStatus(true);
@@ -88,6 +94,38 @@ const ProductDetailPage = () => {
     const onPageChange = (page) => {
         setCurrentPage(page);
     };
+
+    const handleAddToCart = (item) => {
+
+        if (window.localStorage.getItem("auth-token") === null) {
+            navigate("/login")
+        }
+
+        else {
+            const data = {
+                products: product,
+                idUser: window.localStorage.getItem("user"),
+                amount: 1
+            }
+
+            console.log(data)
+
+            addToCart(data).then((res) => {
+                console.log(res)
+                // message.success("Add to cart success")
+                setMessage(" Add to cart successfully");
+                setSeverity("success");
+                setStatus(true);
+            })
+                .catch((e) => {
+                    console.log(e)
+                    // message.error("Add to cart fail")
+                    setMessage("Add to Cart fail");
+                    setSeverity("error");
+                    setStatus(true);
+                })
+        }
+    }
 
 
     if (product === null) {
@@ -137,7 +175,7 @@ const ProductDetailPage = () => {
                                             <span className="font-bold text-lg">{product.price}$</span>
                                         </div>
                                         <div>
-                                            <Button type="primary">Add to Cart</Button>
+                                            <Button type="primary" onClick={handleAddToCart}>Add to Cart</Button>
                                         </div>
                                     </div>
                                     <div className="mt-4">

@@ -17,7 +17,7 @@ function Filter({ setSearchParams, searchParamsObject }) {
 
 
     useEffect(() => {
-        request("GET", "/category/all")
+        request("GET", "/category/active")
             .then((res) => {
                 setcategories(res.data)
             })

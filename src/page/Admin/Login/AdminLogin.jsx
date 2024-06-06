@@ -1,84 +1,60 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
+import { Form, Input, Button, message } from 'antd';
 import { request, setAuthToken } from '../../../axios_helper';
-import './AdminLogin.css'
-import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { message } from 'antd';
 
-export default function AdminLogin() {
+const AdminLogin = () => {
+    const [form] = Form.useForm();
+    const navigate = useNavigate();
 
+    const onFinish = (values) => {
+        request('POST', '/auth/login', values)
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.role === 'ROLE_ADMIN') {
+                    setAuthToken(response.data.token);
+                    window.localStorage.setItem('user', response.data.id);
+                    window.localStorage.setItem('email', response.data.email);
+                    window.localStorage.setItem('role', response.data.role);
+                    navigate('/Admin/Category');
+                } else {
+                    message.error('Your account does not have authority to access this');
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
-    const state = {
-        email: "",
-        password: "",
-    }
-
-    const onChangeHandler = (event) => {
-        // console.log("testting:", event.target.n`ame, event.target.id)
-        let name = event.target.name
-        let value = event.target.value
-        state[name] = value
-    }
-
-    const navigate = useNavigate()
-
-
-
-    const onSubmitLogin = (event) => {
-        event.preventDefault();
-        request("POST", "/auth/login",
-            {
-                email: state.email, password: state.password
-            }
-        ).then((response) => {
-            console.log(response.data);
-            if (response.data.role === "ROLE_ADMIN") {
-                setAuthToken(response.data.token);
-                window.localStorage.setItem("user", response.data.id)
-                window.localStorage.setItem("email", response.data.email)
-                window.localStorage.setItem("role", response.data.role)
-                // console.log(response.data)
-                navigate("/Admin/Category")
-            }
-            else {
-                message.error("Your account do not have authority to access this")
-            }
-
-        }).catch((error) => {
-            console.log(error)
-        })
-        // this.state.onLogin(e, this.state.login, this.state.password)
-    }
-
-    const onRegister = (e) => {
-        e.preventDefault()
-        navigate("/register")
-    }
-
-
-
+    const onRegister = () => {
+        navigate('/register');
+    };
 
     return (
+        <div className='flex justify-center items-center h-screen bg-gradient-to-br from-indigo-300'>
+            <Form form={form} name='admin-login-form' className='bg-white rounded-lg shadow-md p-8 w-96' onFinish={onFinish}>
+                <h4 className='text-center text-2xl font-bold mb-4'>Login</h4>
+                <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your email!' }]}>
+                    <Input className='w-full' />
+                </Form.Item>
 
-        <div className='bg-gradient-to-br from-indigo-300  grid p-3  h-full  place-items-center'>
+                <Form.Item
+                    label='Password'
+                    name='password'
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password className='w-full' />
+                </Form.Item>
 
-            <form className='space-y-2 align-center justify-center bg-white w-1/4 h-3/4 px-20 py-3' onSubmit={onSubmitLogin}>
-                <h4 className='text-center'>Login</h4>
-                <div className='grid space-y-2'>
-                    <label htmlFor="Email">Email</label>
-                    <input id="Email" name="email" className='border-b-2 pt-2  focus:outline-none' onChange={onChangeHandler}></input>
-                </div>
-                <div className='grid space-y-2'>
-                    <label htmlFor="Password">Password</label>
-                    <input type='password' id="Password" name="password" className='border-b-2 pt-2 focus:outline-none' onChange={onChangeHandler}></input>
-                </div>
-                <div className='grid space-y-5 pt-3 '>
-                    <Button variant='contained' className=' bg-gradient-to-br from-indigo-300 to-white place-items-center rounded-xl py-2 text-white font-bold on' type='submit'>
+                <Form.Item>
+                    <Button type='primary' htmlType='submit' className='w-full'>
                         Login
                     </Button>
+                </Form.Item>
 
-                </div>
-            </form >
-        </div >
-    )
-}
+            </Form>
+        </div>
+    );
+};
+
+export default AdminLogin;

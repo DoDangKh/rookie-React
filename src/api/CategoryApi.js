@@ -92,7 +92,8 @@ export const update = async (data) => {
     const response = await CategoryApi.put(CategoryEndPoint + "/update/" + data.id, {
         id: data.id,
         name: data.name,
-        description: data.description
+        description: data.description,
+        status: true
     });
 
     return response.data

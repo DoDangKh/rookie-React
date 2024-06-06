@@ -73,8 +73,8 @@ const App = (props) => {
             }
         };
         fmData.append("image", file);
-        // console.log(file)
-        // console.log(fmData)
+        console.log(file)
+        console.log(fmData)
         // console.log("1:", fileList)
         setFileList((oldFileList) => [...oldFileList, file]);
         try {
@@ -102,8 +102,22 @@ const App = (props) => {
             );
 
             // console.log("Con:", NameList)
-            props.handleChangeImages([...props.images, data])
+
+
+
+
+            let temp = props.images
+
+            console.log("Con1:", temp)
+
+            temp.push(data)
+
+            console.log("Con:", temp)
+
+            props.handleChangeImages(temp)
             // console.log(fileList)
+
+
 
             // temp.push(data)
             // setNameList(temp)

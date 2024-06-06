@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, InputNumber, Image, Checkbox } from 'antd';
+import { Table, Button, Space, InputNumber, Image, Checkbox, message } from 'antd';
 import './Cart.css';
 import { deleteCarts, getCartsByIdUsers, updateCarts } from '../../../api/CartsApi';
-import { render } from '@testing-library/react';
-import { update } from '../../../api/CategoryApi';
 import { addOrders } from '../../../api/OrdersApi';
 
 const CartPage = () => {
@@ -115,9 +113,11 @@ const CartPage = () => {
             .then((res) => {
                 setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
                 console.log(res)
+                message.success("Remove success")
             })
             .catch((e) => {
                 console.log(e)
+                message.error("Remove error")
             })
     };
 
@@ -146,10 +146,21 @@ const CartPage = () => {
         console.log(data)
 
         addOrders(data).then((res) => {
+
             console.log(res)
+            for (let i in Selected) {
+
+                deleteCarts(Selected[i].id).then(
+                    (res) => {
+                        setCartItems((prevItems) => prevItems.filter((item) => item.id !== Selected[i].id))
+                    }
+                )
+            }
+            message.success("Check out success")
         })
             .catch((e) => {
                 console.log(e)
+                message.error("Check out failed")
             })
 
     }

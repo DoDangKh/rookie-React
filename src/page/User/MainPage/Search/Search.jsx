@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Filter from './Componet/Filter/Filter'
-import { Button, Card, Flex, Layout, List, Pagination, Select } from 'antd'
+import { Button, Card, Flex, Layout, List, Pagination, Select, message } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Content } from 'antd/es/layout/layout'
@@ -78,9 +78,11 @@ function Search() {
 
             addToCart(data).then((res) => {
                 console.log(res)
+                message.success("Add to cart success")
             })
                 .catch((e) => {
                     console.log(e)
+                    message.error("Add to cart error")
                 })
         }
     }
