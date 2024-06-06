@@ -24,6 +24,7 @@ import AdminLogin from './page/Admin/Login/AdminLogin';
 import User from './page/Admin/Users/User';
 import UserDetail from './page/Admin/Users/UserDetail/UserDetail';
 import CartPage from './page/User/Cart/Cart';
+import OrderPage from './page/User/Orders/Orders';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path='*' exact Component={MainPage} />
           <Route path='search' exact Component={Search} />
           <Route path='cart' exact Component={CartPage} />
+          <Route path='order' exact Component={OrderPage} />
         </Route>
         <Route path='Admin/login' exact Component={AdminLogin} />
         <Route Component={SideBar} path='Admin'>

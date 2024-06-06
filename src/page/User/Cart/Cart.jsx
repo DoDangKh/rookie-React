@@ -4,6 +4,7 @@ import './Cart.css';
 import { deleteCarts, getCartsByIdUsers, updateCarts } from '../../../api/CartsApi';
 import { render } from '@testing-library/react';
 import { update } from '../../../api/CategoryApi';
+import { addOrders } from '../../../api/OrdersApi';
 
 const CartPage = () => {
     // Dummy data for demonstration
@@ -135,6 +136,24 @@ const CartPage = () => {
         }
     };
 
+    const handleCheckout = () => {
+        const data = {
+            idUser: window.localStorage.getItem("user"),
+            status: false,
+            orders_ProductsDtos: Selected,
+        }
+
+        console.log(data)
+
+        addOrders(data).then((res) => {
+            console.log(res)
+        })
+            .catch((e) => {
+                console.log(e)
+            })
+
+    }
+
     const total = cartItems.reduce(
         (acc, curr) => acc + curr.productsDto.price * curr.amount,
         0
@@ -163,8 +182,8 @@ const CartPage = () => {
             />
             <div className="mt-4 flex justify-end">
                 <Space>
-                    <Button type="primary">Checkout</Button>
-                    <Button>Continue Shopping</Button>
+                    <Button type="primary" onClick={() => { handleCheckout() }}>Checkout</Button>
+                    <Button >Continue Shopping</Button>
                 </Space>
             </div>
         </div>

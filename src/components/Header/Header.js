@@ -15,6 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { AddCardOutlined } from '@mui/icons-material';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -56,6 +57,15 @@ function ResponsiveAppBar() {
         }
         else {
             navigate("/cart")
+        }
+    }
+
+    const handleOpenOrder = () => {
+        if (token === null) {
+            navigate("/login")
+        }
+        else {
+            navigate("/order")
         }
     }
 
@@ -158,9 +168,12 @@ function ResponsiveAppBar() {
 
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
-                                <IconButton>
+                                {token !== null && (<IconButton>
+                                    <AddCardOutlined color="primary" onClick={handleOpenOrder}></AddCardOutlined>
+                                </IconButton>)}
+                                {token !== null && (<IconButton>
                                     <ShoppingCartOutlinedIcon color="secondary" onClick={handleOpenCart}></ShoppingCartOutlinedIcon>
-                                </IconButton>
+                                </IconButton>)}
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     {token === null && (
                                         <Avatar size="large" icon={<UserOutlined />} />
